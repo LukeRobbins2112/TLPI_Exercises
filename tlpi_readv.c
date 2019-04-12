@@ -17,7 +17,7 @@ int main(){
 
   if (fd == -1){
     perror("open");
-    _exit(0);
+    _exit(1);
   }
 
   // Read in data from STDIN, write to file
@@ -31,7 +31,7 @@ int main(){
     int bytesWritten = write(fd, buf, bytesRead);
     if (bytesWritten < bytesRead){
       perror("write");
-      _exit(0);
+      _exit(1);
     }
   }
 
@@ -58,8 +58,12 @@ int main(){
 
 
   ssize_t bytesReadV = readv(fd, iov, 3);
+  if (bytesReadV == -1){
+    perror("readv");
+    _exit(1);
+  }
   
-  // Null terminate data
+  // Null terminate data for printing
   buf0[10] = '\0';
   buf1[5] = '\0';
   buf2[5] = '\0';
