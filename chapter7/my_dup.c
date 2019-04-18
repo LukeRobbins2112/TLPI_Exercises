@@ -11,7 +11,7 @@
 int myDup(int originalFd){
 
 
-  return fcntl(originalFd, F_DUPFD, originalFd);
+  return fcntl(originalFd, F_DUPFD, 0);
 
 }
 
@@ -22,6 +22,8 @@ int main(){
 
   int copyFD = myDup(STDOUT_FILENO);
   if (copyFD == -1) perror("dup");
+
+  printf("New fd: %d\n", copyFD);
 
   while((bytesRead = read(STDIN_FILENO, buffer, BUF_SIZE)) > 0){
 
