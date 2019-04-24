@@ -18,6 +18,8 @@ uid_t userIdFromName(const char *name);
 void traverseProc(const char * dirPath, const char * nameArg);
 void process_pid_status(const char * fileName, const char * UID);
 
+
+
 /* Return name corresponding to 'uid', or NULL on error */
 char * userNameFromId(uid_t uid)
 {
@@ -33,8 +35,8 @@ uid_t userIdFromName(const char *name)
   uid_t u;
   char *endptr;
 
-  if (name == NULL || *name == '\0') /* On NULL or empty string */
-    return -1; /* return an error */
+  if (name == NULL || *name == '\0')
+    return -1;
 
   u = strtol(name, &endptr, 10); /* As a convenience to caller */
 
@@ -88,14 +90,14 @@ void traverseProc(const char * dirPath, const char * nameArg){
 
     if (!is_PID_Dir) continue;
 
-    size_t fullLen = strlen(dirPath) + subDirLen + 2 + 7;    // + 2 for / and null terminator
+    size_t fullLen = strlen(dirPath) + subDirLen + 2 + 7;    // + 2 for / and null terminator, + 7 for /status
     char * fullPath = (char *)malloc(fullLen);
     strcpy(fullPath, dirPath);
     strcat(fullPath, "/");
     strcat(fullPath, dp->d_name);
     strcat(fullPath, "/status");
     fullPath[fullLen] = '\0';
-    printf("Full Path: %s\n", fullPath);
+    // printf("Full Path: %s\n", fullPath);
 
     process_pid_status(fullPath, stringUID);
   }
